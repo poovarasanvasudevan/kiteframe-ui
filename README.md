@@ -70,13 +70,14 @@ Static docs build: `bun run --filter @kiteframe/ui build-storybook`
 | Menu | `Menu`, `MenuItem`, `IconMenuItem`, `MenuSeparator`, `MenuLabel` |
 | Search | `SearchBox`, `SearchTrigger` |
 | Checkbox / Switch | `Checkbox`, `Switch` |
+| Chip input | `ChipInput` |
 | File upload | `FileUpload` |
 
 ### Feedback
 | Component | Import |
 |-----------|--------|
 | Alert / banner | `Alert` |
-| Badge / Chip | `Badge`, `Chip`, `ChipButton` |
+| Badge / Chip | `Badge`, `Chip`, `ChipButton`, `ChipInput` |
 | Status | `StatusIndicator` |
 | Spinner / Tooltip | `Spinner`, `Tooltip` |
 | Empty | `EmptyState` |
