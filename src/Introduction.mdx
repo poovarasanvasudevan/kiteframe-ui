@@ -1,0 +1,64 @@
+import { Meta } from '@storybook/blocks'
+
+<Meta title="Introduction" />
+
+# @kiteframe/ui
+
+Reusable React UI kit for KiteFrame operations shells.
+
+## Install in another app
+
+```bash
+bun add @kiteframe/ui lucide-react @tanstack/react-table
+# or link a local checkout:
+bun add ../path/to/kb-management/packages/ui
+```
+
+```tsx
+import '@kiteframe/ui/styles.css'
+import { AppLayout, Sidebar, TopBar, Button, PageHeader } from '@kiteframe/ui'
+```
+
+## Layout (no overlap)
+
+Always compose the shell with `AppLayout` so the sidebar rail is reserved:
+
+```tsx
+<AppLayout
+  sidebar={<Sidebar>...</Sidebar>}
+  topbar={<TopBar title="Organization" trailing={<Avatar name="B" />} />}
+  aside={<InfoPanel title="About">...</InfoPanel>}
+>
+  <PageHeader title="Organization details" />
+  {/* main content */}
+</AppLayout>
+```
+
+`AppLayout` uses a CSS grid column for the rail. Do **not** place a fixed `Sidebar` beside content without that reserved space.
+
+## Storybook docs
+
+Each component has its own entry with a **Docs** tab (autodocs) and live examples:
+
+| Group | Examples |
+|-------|----------|
+| **Layout** | `AppLayout`, `Sidebar`, `TopBar`, `Card`, `PageHeader`, `SectionHeader`, `InfoPanel` |
+| **Forms** | `Button`, `TextField`, `Select`, `FilteredSelect`, `Checkbox`, `Switch`, `FileUpload`, … |
+| **Feedback** | `Alert`, `Badge`, `StatusIndicator`, `Spinner`, `Tooltip`, `EmptyState` |
+| **Data** | `SettingsRow`, `ListItem`, `Stat`, `ProgressBar`, … |
+| **Content** | `Link`, `HelpList`, `ProductGrid`, `UrlCard`, `IconBadge`, `Divider` |
+| **Overlay** | `Menu`, `MenuItem`, `IconMenuItem`, `Popover`, `Dialog`, `Drawer` |
+| **Patterns** | Full-page compositions (e.g. Organization form) |
+
+## Theming
+
+Override CSS variables on `:root` or `.kf-theme` (`src/styles/tokens.css`).
+
+| Token | Role |
+|-------|------|
+| `--kf-rail` / `--kf-primary` | Dark navy shell & primary actions |
+| `--kf-accent` / `--kf-link` | Links, focus, selection |
+| `--kf-brand` / `--kf-success` | Teal success / brand |
+| `--kf-paper` | Page background |
+| `--kf-rail-width` | Icon rail width |
+| `--kf-density` | Compact scale (default `0.95`) |
