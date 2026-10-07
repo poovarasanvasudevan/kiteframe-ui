@@ -57,7 +57,7 @@ Static docs build: `bun run --filter @kiteframe/ui build-storybook`
 | Component | Import |
 |-----------|--------|
 | Breadcrumb | `Breadcrumb` |
-| Tabs | `Tabs`, `TabList`, `Tab`, `TabPanel` |
+| Tabs | `Tabs` (`orientation`: `horizontal` \| `vertical`), `TabList`, `Tab`, `TabPanel` |
 | Pagination | `Pagination` |
 | Command palette | `CommandK`, `useCommandKShortcut` |
 

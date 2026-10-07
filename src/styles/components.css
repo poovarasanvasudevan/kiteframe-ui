@@ -876,34 +876,109 @@
     padding: 0;
 }
 
+/* —— Tabs (horizontal underline + vertical settings nav) —— */
+.kf-tabs-root {
+    display: block;
+    min-width: 0;
+}
+
+.kf-tabs-root--vertical {
+    display: grid;
+    grid-template-columns: minmax(180px, 220px) minmax(0, 1fr);
+    gap: var(--kf-space-4);
+    align-items: start;
+}
+
 .kf-tabs {
     display: flex;
     gap: 2px;
+}
+
+.kf-tabs--horizontal {
+    flex-direction: row;
+    align-items: stretch;
     border-bottom: 1px solid var(--kf-rule);
+}
+
+.kf-tabs--vertical {
+    flex-direction: column;
+    gap: 2px;
+    border-bottom: 0;
+    padding: 0;
 }
 
 .kf-tabs__tab {
     min-height: calc(34px * var(--kf-density));
     padding: 0 var(--kf-space-3);
     border: 0;
-    border-bottom: 2px solid transparent;
     background: transparent;
     color: var(--kf-muted);
-    font: 600 var(--kf-font-md)/1 var(--kf-font);
+    font: 500 var(--kf-font-md)/1.2 var(--kf-font);
     cursor: pointer;
+    text-align: left;
 }
 
-.kf-tabs__tab:hover {
+.kf-tabs--horizontal .kf-tabs__tab {
+    border-bottom: 2px solid transparent;
+    margin-bottom: -1px;
+    color: var(--kf-muted);
+    font-weight: 600;
+}
+
+.kf-tabs--horizontal .kf-tabs__tab:hover {
     color: var(--kf-ink);
 }
 
-.kf-tabs__tab[aria-selected="true"] {
-    color: var(--kf-accent);
-    border-bottom-color: var(--kf-accent);
+.kf-tabs--horizontal .kf-tabs__tab[aria-selected="true"] {
+    color: var(--kf-primary);
+    border-bottom-color: var(--kf-primary);
+}
+
+.kf-tabs--vertical .kf-tabs__tab,
+.kf-tabs__tab--vertical {
+    width: 100%;
+    min-height: calc(32px * var(--kf-density));
+    padding: calc(8px * var(--kf-density)) calc(12px * var(--kf-density));
+    border-radius: var(--kf-radius-md);
+    color: var(--kf-ink);
+    font: 500 var(--kf-font-md)/1.3 var(--kf-font);
+}
+
+.kf-tabs--vertical .kf-tabs__tab:hover {
+    background: var(--kf-surface-2);
+}
+
+.kf-tabs--vertical .kf-tabs__tab[aria-selected="true"] {
+    background: var(--kf-surface-2);
+    color: var(--kf-ink);
+    font-weight: 700;
 }
 
 .kf-tabs__panel {
     padding-top: 12px;
+    min-width: 0;
+}
+
+.kf-tabs__panel--vertical {
+    padding-top: 0;
+}
+
+@media (max-width: 720px) {
+    .kf-tabs-root--vertical {
+        grid-template-columns: 1fr;
+        gap: var(--kf-space-3);
+    }
+
+    .kf-tabs--vertical {
+        flex-direction: row;
+        flex-wrap: wrap;
+        border-bottom: 1px solid var(--kf-rule);
+        padding-bottom: 4px;
+    }
+
+    .kf-tabs--vertical .kf-tabs__tab {
+        width: auto;
+    }
 }
 
 .kf-accordion {

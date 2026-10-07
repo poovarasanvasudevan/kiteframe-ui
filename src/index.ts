@@ -27,7 +27,17 @@ export { Typography, type TypographyProps, type TypographyVariant } from './comp
 export { Chip, ChipButton, type ChipProps, type ChipButtonProps, type ChipTone } from './components/Chip'
 export { ChipInput, type ChipInputProps } from './components/ChipInput'
 export { Card, CardHeader, CardBody, CardFooter, CardTitle, type CardProps, type CardTitleProps } from './components/Card'
-export { Tabs, TabList, Tab, TabPanel, type TabsProps, type TabProps, type TabPanelProps } from './components/Tabs'
+export {
+  Tabs,
+  TabList,
+  Tab,
+  TabPanel,
+  type TabsProps,
+  type TabListProps,
+  type TabProps,
+  type TabPanelProps,
+  type TabsOrientation,
+} from './components/Tabs'
 export {
   Accordion,
   AccordionItem,
