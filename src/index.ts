@@ -57,7 +57,17 @@ export {
 } from './components/Drawer'
 export { Table, THead, TBody, TR, TH, TD, type TableProps } from './components/Table'
 export { Sidebar, SidebarItem, SidebarFooterButton, type SidebarProps, type SidebarItemProps } from './components/Sidebar'
-export { DataTable, type DataTableProps } from './components/DataTable'
+export {
+  DataTable,
+  useDataTable,
+  createDataTableColumnHelper,
+  type DataTableProps,
+  type DataTableColumnDef,
+  type DataTableDensity,
+  type DataTableInstance,
+  type DataTableMeta,
+  type UseDataTableOptions,
+} from './components/datatable'
 export { CommandK, useCommandKShortcut, type CommandItem, type CommandKProps } from './components/CommandK'
 
 export { Badge, type BadgeProps, type BadgeTone } from './components/Badge'

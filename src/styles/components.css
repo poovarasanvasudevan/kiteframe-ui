@@ -1305,18 +1305,137 @@
     padding: calc(6px * var(--kf-density)) calc(10px * var(--kf-density));
 }
 
+/* —— DataTable (MRT-style) —— */
+.kf-datatable {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    background: var(--kf-surface);
+    border: 1px solid var(--kf-rule);
+    border-radius: var(--kf-radius-md);
+    box-shadow: var(--kf-shadow-soft);
+    overflow: hidden;
+}
+
+.kf-datatable--fullscreen {
+    position: fixed;
+    inset: 12px;
+    z-index: var(--kf-z-dialog);
+    box-shadow: var(--kf-shadow-dialog);
+}
+
 .kf-datatable__toolbar {
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 10px;
-    margin-bottom: 10px;
+    padding: 10px 12px;
+    border-bottom: 1px solid var(--kf-rule);
+    flex-wrap: wrap;
+}
+
+.kf-datatable__toolbar-left,
+.kf-datatable__toolbar-right {
+    display: flex;
+    align-items: center;
+    gap: 8px;
     flex-wrap: wrap;
 }
 
 .kf-datatable__meta {
     color: var(--kf-muted);
-    font-size: 10px;
+    font: 500 var(--kf-font-sm)/1.3 var(--kf-font);
+    white-space: nowrap;
+}
+
+.kf-datatable__scroll {
+    position: relative;
+    overflow: auto;
+    max-height: min(70vh, 640px);
+}
+
+.kf-datatable__scroll--virtual {
+    max-height: 480px;
+}
+
+.kf-datatable__scroll--sticky thead th {
+    position: sticky;
+    top: 0;
+    z-index: 3;
+    background: var(--kf-surface-2);
+}
+
+.kf-datatable__loading {
+    position: absolute;
+    inset: 0;
+    z-index: 4;
+    display: grid;
+    place-items: center;
+    background: rgb(255 255 255 / 0.65);
+}
+
+.kf-datatable__table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    font: 400 var(--kf-font-md)/1.4 var(--kf-font);
+    color: var(--kf-ink);
+}
+
+.kf-datatable__table th,
+.kf-datatable__table td {
+    padding: 10px 12px;
+    border-bottom: 1px solid var(--kf-rule);
+    text-align: left;
+    vertical-align: middle;
+    background: var(--kf-surface);
+}
+
+.kf-datatable--compact .kf-datatable__table th,
+.kf-datatable--compact .kf-datatable__table td {
+    padding: 6px 10px;
+}
+
+.kf-datatable--spacious .kf-datatable__table th,
+.kf-datatable--spacious .kf-datatable__table td {
+    padding: 14px 14px;
+}
+
+.kf-datatable__table th {
+    background: var(--kf-surface-2);
+    color: var(--kf-muted);
+    font: 600 var(--kf-font-sm)/1.3 var(--kf-font);
+    letter-spacing: .02em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    position: relative;
+}
+
+.kf-datatable__table tbody tr:hover td {
+    background: var(--kf-surface-2);
+}
+
+.kf-datatable__table tbody tr.is-selected td {
+    background: var(--kf-info-soft);
+}
+
+.kf-datatable__table tbody tr.is-clickable {
+    cursor: pointer;
+}
+
+.kf-datatable__cell--center { text-align: center; }
+.kf-datatable__cell--right { text-align: right; }
+
+.kf-datatable__cell--pinned {
+    background: var(--kf-surface);
+    box-shadow: 1px 0 0 var(--kf-rule);
+}
+
+.kf-datatable__th-inner {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    max-width: 100%;
 }
 
 .kf-datatable__empty {
@@ -1339,13 +1458,67 @@
     padding: 0;
 }
 
+.kf-datatable__resizer {
+    position: absolute;
+    right: 0;
+    top: 0;
+    height: 100%;
+    width: 4px;
+    cursor: col-resize;
+    user-select: none;
+    touch-action: none;
+}
+
+.kf-datatable__resizer:hover,
+.kf-datatable__resizer.is-resizing {
+    background: var(--kf-accent);
+}
+
+.kf-datatable__column-filter {
+    margin-top: 6px;
+    min-width: 120px;
+}
+
+.kf-datatable__column-filter-input {
+    display: block;
+    width: 100%;
+    margin-top: 6px;
+    min-height: 26px;
+    padding: 0 6px;
+    border: 1px solid var(--kf-rule-strong);
+    border-radius: var(--kf-radius-sm);
+    background: var(--kf-paper);
+    color: var(--kf-ink);
+    font: 400 var(--kf-font-sm)/1.3 var(--kf-font);
+}
+
+.kf-datatable__detail-row td {
+    background: var(--kf-paper);
+}
+
+.kf-datatable__detail {
+    padding: 4px 8px 8px;
+}
+
 .kf-datatable__pager {
     display: flex;
     align-items: center;
-    justify-content: flex-end;
-    gap: 6px;
-    padding: 8px 10px;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 8px 12px;
     border-top: 1px solid var(--kf-rule);
+    flex-wrap: wrap;
+}
+
+.kf-datatable__pager-left,
+.kf-datatable__pager-right {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.kf-datatable__page-size {
+    width: 120px;
 }
 
 .kf-sidebar {
