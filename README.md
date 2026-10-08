@@ -5,14 +5,12 @@ Reusable React UI kit for KiteFrame operations shells (~95% density).
 ## Install in another project
 
 ```bash
-# from a sibling checkout
-bun add ../path/to/kb-management/packages/ui
-
-# or after publish:
-bun add @kiteframe/ui lucide-react @tanstack/react-table
+npm install @kiteframe/ui
+# peers (install once in the app):
+npm install react react-dom lucide-react @tanstack/react-table @tanstack/react-virtual
 ```
 
-Peer dependencies: `react`, `react-dom`, `lucide-react`, `@tanstack/react-table`.
+Peer dependencies: `react`, `react-dom`, `lucide-react`, `@tanstack/react-table`, `@tanstack/react-virtual`.
 
 ## Setup
 

@@ -2,11 +2,22 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "noEmit": false,
-    "emitDeclarationOnly": true,
+    "emitDeclarationOnly": false,
+    "declaration": true,
+    "declarationMap": true,
+    "sourceMap": true,
     "outDir": "dist",
     "rootDir": "src",
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "jsx": "react-jsx",
     "types": []
   },
   "include": ["src"],
-  "exclude": ["src/**/*.stories.tsx", "src/**/*.mdx", "src/**/*.stories.ts"]
+  "exclude": [
+    "src/**/*.stories.tsx",
+    "src/**/*.stories.ts",
+    "src/**/*.mdx",
+    "src/Introduction.mdx"
+  ]
 }
