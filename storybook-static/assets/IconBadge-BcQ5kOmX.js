@@ -1,6 +1,0 @@
-import{c as t}from"./createLucideIcon-CV1y-rTQ.js";import{j as c}from"./jsx-runtime-D_zvdyIk.js";import{c as d}from"./cx-Q3itr6B4.js";/**
- * @license lucide-react v0.511.0 - ISC
- *
- * This source code is licensed under the ISC license.
- * See the LICENSE file in the root directory of this source tree.
- */const i=[["path",{d:"M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z",key:"1xq2db"}]],f=t("zap",i);function l({children:a,color:o,size:e="md",className:r,style:n,...s}){return c.jsx("span",{className:d("kf-icon-badge",e!=="md"&&`kf-icon-badge--${e}`,r),style:{background:o,...n},...s,children:a})}l.__docgenInfo={description:"Circular colored icon container used on account / product list rows.",methods:[],displayName:"IconBadge",props:{children:{required:!0,tsType:{name:"ReactNode"},description:""},color:{required:!1,tsType:{name:"string"},description:""},size:{required:!1,tsType:{name:"union",raw:"'sm' | 'md' | 'lg'",elements:[{name:"literal",value:"'sm'"},{name:"literal",value:"'md'"},{name:"literal",value:"'lg'"}]},description:"",defaultValue:{value:"'md'",computed:!1}}}};export{l as I,f as Z};
