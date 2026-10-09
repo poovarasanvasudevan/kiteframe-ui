@@ -7,9 +7,9 @@ export type NotificationTone = 'info' | 'success' | 'warning' | 'danger'
 
 export type NotificationPlacement = 'top-right' | 'top-left' | 'bottom-right' | 'bottom-left'
 
-export type NotificationProps = HTMLAttributes<HTMLDivElement> & {
+export type NotificationProps = Omit<HTMLAttributes<HTMLDivElement>, 'title'> & {
   tone?: NotificationTone
-  title?: ReactNode
+  title?: ReactNode | string
   icon?: ReactNode | false
   onDismiss?: () => void
   dismissLabel?: string
