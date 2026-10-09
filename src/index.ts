@@ -13,6 +13,7 @@ export { useTimeout } from './hooks/useTimeout'
 export { Button, type ButtonProps, type ButtonSize, type ButtonVariant } from './components/Button'
 export { TextField, TextArea, type TextFieldProps, type TextAreaProps } from './components/TextField'
 export { Select, type SelectOption, type SelectProps } from './components/Select'
+export { DatePicker, type DatePickerMode, type DatePickerProps } from './components/DatePicker'
 export {
   FilteredSelect,
   type FilteredSelectOption,

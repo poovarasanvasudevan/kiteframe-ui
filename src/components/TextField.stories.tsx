@@ -13,6 +13,14 @@ export const Default: Story = {
   args: { label: 'Organization name *', defaultValue: 'Acme Corp' },
 }
 
+export const Required: Story = {
+  args: { label: 'Subject', required: true, placeholder: 'Enter a subject' },
+}
+
+export const WithPrefixAndSuffix: Story = {
+  args: { label: 'Amount', prefix: '$', suffix: 'USD', placeholder: '0.00' },
+}
+
 export const WithHint: Story = {
   args: {
     label: 'Account domain URL *',
