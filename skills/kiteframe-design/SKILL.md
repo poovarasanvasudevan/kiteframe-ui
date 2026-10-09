@@ -87,7 +87,7 @@ Peers: `react`, `react-dom`, `lucide-react`, `@tanstack/react-table`, `@tanstack
 | Actions | `Button` (`primary` \| `secondary` \| `ghost` \| `danger` \| `danger-outline`) |
 | Forms | `TextField`, `TextArea`, `Select`, `FilteredSelect`, `Checkbox`, `Switch`, `ChipInput`, `FileUpload` |
 | Search | `SearchBox`, `SearchTrigger` + `CommandK` / `useCommandKShortcut` |
-| Feedback | `Alert`, `Badge`, `Chip`, `StatusIndicator`, `Spinner`, `Tooltip`, `EmptyState` |
+| Feedback | `Alert`, `Notification` / `NotificationProvider` / `useNotification`, `Badge`, `Chip`, `StatusIndicator`, `Spinner`, `Tooltip`, `EmptyState` |
 | Data | `SettingsRow`, `ListItem`, `Stat`, `ProgressBar`, `Table`, `DataTable` |
 | Overlay | `Dialog`, `Drawer`, `Popover`, `Menu`, `CommandK`, `Accordion` |
 | Content | `Card` (+ `CardHeader`/`Body`/`Footer`), `Typography`, `Link`, `InfoPanel`, `HelpList` |

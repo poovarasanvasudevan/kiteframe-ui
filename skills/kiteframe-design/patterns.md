@@ -56,10 +56,13 @@ Use stacked `SettingsRow` inside `Card` > `CardBody` (often with dividers / gap 
 - Sort/filter/virtualize: `DataTable` + TanStack peers.
 - Keep row height dense; avoid card-per-row tables.
 
-## 6. Empty & loading
+## 6. Empty, loading & toasts
 
 - Loading: `Spinner` inline or centered in content area.
 - No results: `EmptyState` with short title + one CTA `Button`.
+- Ephemeral feedback: wrap the app in `NotificationProvider` and call `useNotification()` (not `Alert`).
+- Custom toast UI: pass `component` to the provider and/or per `notify({ component })`.
+- Persistent page messaging: `Alert` inline in content.
 
 ## 7. Status & badges
 

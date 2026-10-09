@@ -79,6 +79,7 @@ Static docs build: `bun run --filter @kiteframe/ui build-storybook`
 | Component | Import |
 |-----------|--------|
 | Alert / banner | `Alert` |
+| Notification / toast | `Notification`, `NotificationViewport`, `NotificationProvider`, `useNotification`, `useNotifications` |
 | Badge / Chip | `Badge`, `Chip`, `ChipButton`, `ChipInput` |
 | Status | `StatusIndicator` |
 | Spinner / Tooltip | `Spinner`, `Tooltip` |

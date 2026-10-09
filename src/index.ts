@@ -1,5 +1,14 @@
 export { cx, type ClassValue } from './utils/cx'
 export { useControllableState } from './hooks/useControllableState'
+export { useRequest, type UseRequestOptions, type UseRequestResult } from './hooks/useRequest'
+export { useSetState, type SetStatePatch, type UseSetStateSetter } from './hooks/useSetState'
+export { useMap, type UseMapActions } from './hooks/useMap'
+export { useSet, type UseSetActions } from './hooks/useSet'
+export { useAsyncEffect, type AsyncEffectCallback } from './hooks/useAsyncEffect'
+export { useDebounce } from './hooks/useDebounce'
+export { useShortcut, type ShortcutOptions } from './hooks/useShortcut'
+export { useInterval } from './hooks/useInterval'
+export { useTimeout } from './hooks/useTimeout'
 
 export { Button, type ButtonProps, type ButtonSize, type ButtonVariant } from './components/Button'
 export { TextField, TextArea, type TextFieldProps, type TextAreaProps } from './components/TextField'
@@ -72,6 +81,26 @@ export { CommandK, useCommandKShortcut, type CommandItem, type CommandKProps } f
 
 export { Badge, type BadgeProps, type BadgeTone } from './components/Badge'
 export { Alert, type AlertProps, type AlertTone } from './components/Alert'
+export {
+  Notification,
+  NotificationViewport,
+  type NotificationProps,
+  type NotificationTone,
+  type NotificationPlacement,
+  type NotificationViewportProps,
+} from './components/Notification'
+export {
+  useNotifications,
+  useNotification,
+  NotificationProvider,
+  DefaultNotificationView,
+  type NotificationRecord,
+  type NotificationRenderProps,
+  type NotifyOptions,
+  type UseNotificationsOptions,
+  type UseNotificationsResult,
+  type NotificationProviderProps,
+} from './hooks/useNotifications'
 export { Breadcrumb, type BreadcrumbProps, type BreadcrumbItem } from './components/Breadcrumb'
 export {
   StatusIndicator,

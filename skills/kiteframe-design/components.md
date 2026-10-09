@@ -63,13 +63,37 @@ useCommandKShortcut(() => setOpen(v => !v))
 
 | Component | Notes |
 |-----------|--------|
-| `Alert` | `tone` soft banners |
+| `Alert` | Inline soft banners (`tone`) |
+| `Notification` | Presentational toast card |
+| `NotificationViewport` | Fixed corner stack; portals to body |
+| `NotificationProvider` | Queue + viewport; accepts custom `component` |
+| `useNotification` | Context API (`notify`, `success`, `dismiss`, …) |
+| `useNotifications` | Standalone queue hook (manual viewport) |
 | `Badge` | `tone`: `neutral` \| `accent` \| `success` \| `warning` \| `danger` \| `org` |
 | `Chip` / `ChipButton` | `tone` + optional `onRemove` |
 | `StatusIndicator` | status dot + label |
 | `Spinner` | loading |
 | `Tooltip` | hover hint |
 | `EmptyState` | no-data placeholder |
+
+```tsx
+// App root
+<NotificationProvider placement="top-right" defaultDuration={4000} component={MyToast}>
+  <App />
+</NotificationProvider>
+
+// Anywhere under provider
+const { success, notify, dismiss } = useNotification()
+success('Saved', { description: 'Preferences updated.' })
+notify({ tone: 'info', title: '…', component: SpecialToast }) // per-item UI
+
+// Custom display receives NotificationRenderProps
+function MyToast({ tone, title, description, onDismiss }: NotificationRenderProps) {
+  return (/* your markup */)
+}
+```
+
+Use `Alert` for persistent in-page banners; notifications for ephemeral toasts.
 
 ## Data display
 
