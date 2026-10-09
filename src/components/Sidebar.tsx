@@ -1,4 +1,5 @@
-import type { ComponentPropsWithoutRef, ElementType, ReactNode } from 'react'
+import { useState, type ComponentPropsWithoutRef, type ElementType, type ReactNode } from 'react'
+import { MoreVertical } from 'lucide-react'
 import { cx } from '../utils/cx'
 
 export type SidebarProps = ComponentPropsWithoutRef<'aside'> & {
@@ -29,6 +30,9 @@ type SidebarItemOwnProps<E extends ElementType> = {
   icon: ReactNode
   label: string
   className?: string
+  submenu?: ReactNode
+  defaultSubmenuOpen?: boolean
+  onSubmenuOpenChange?: (open: boolean) => void
 }
 
 export type SidebarItemProps<E extends ElementType = 'a'> = SidebarItemOwnProps<E> &
@@ -40,19 +44,74 @@ export function SidebarItem<E extends ElementType = 'a'>({
   icon,
   label,
   className,
+  submenu,
+  defaultSubmenuOpen = false,
+  onSubmenuOpenChange,
+  onClick,
   ...props
 }: SidebarItemProps<E>) {
   const Comp = as ?? 'a'
+  const [submenuOpen, setSubmenuOpen] = useState(defaultSubmenuOpen)
+  const hasSubmenu = submenu != null
+
+  const toggleSubmenu = () => {
+    if (!hasSubmenu) return
+    const next = !submenuOpen
+    setSubmenuOpen(next)
+    onSubmenuOpenChange?.(next)
+  }
+
   return (
-    <Comp
-      title={label}
-      data-active={active || undefined}
-      className={cx('kf-sidebar__item', className)}
-      {...props}
-    >
-      {icon}
-      <span className="kf-sidebar__label">{label}</span>
-    </Comp>
+    <div className={cx('kf-sidebar__item-wrap', hasSubmenu && 'kf-sidebar__item-wrap--submenu')}>
+      <Comp
+        title={label}
+        data-active={active || undefined}
+        className={cx('kf-sidebar__item', className)}
+        aria-expanded={hasSubmenu ? submenuOpen : undefined}
+        aria-haspopup={hasSubmenu ? 'menu' : undefined}
+        onClick={(event) => {
+          if (hasSubmenu) {
+            event.preventDefault()
+            toggleSubmenu()
+          }
+          onClick?.(event)
+        }}
+        {...props}
+      >
+        {icon}
+        <span className="kf-sidebar__label">{label}</span>
+        {hasSubmenu ? <MoreVertical className="kf-sidebar__submenu-indicator" aria-hidden /> : null}
+      </Comp>
+      {hasSubmenu && submenuOpen ? <div className="kf-sidebar__submenu">{submenu}</div> : null}
+    </div>
+  )
+}
+
+export type SidebarSubmenuProps = ComponentPropsWithoutRef<'div'> & {
+  label?: string
+}
+
+export function SidebarSubmenu({ label = 'Submenu', className, children, ...props }: SidebarSubmenuProps) {
+  return (
+    <div role="menu" aria-label={label} className={cx('kf-sidebar__submenu-panel', className)} {...props}>
+      {children}
+    </div>
+  )
+}
+
+export type SidebarSubmenuItemProps = ComponentPropsWithoutRef<'a'> & {
+  icon: ReactNode
+  label: string
+}
+
+export function SidebarSubmenuItem({ icon, label, className, children, ...props }: SidebarSubmenuItemProps) {
+  return (
+    <a role="menuitem" className={cx('kf-sidebar__submenu-item', className)} {...props}>
+      <span className="kf-sidebar__submenu-item-icon" aria-hidden>
+        {icon}
+      </span>
+      <span>{children ?? label}</span>
+    </a>
   )
 }
 

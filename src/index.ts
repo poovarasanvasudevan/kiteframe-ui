@@ -65,7 +65,17 @@ export {
   type DrawerSize,
 } from './components/Drawer'
 export { Table, THead, TBody, TR, TH, TD, type TableProps } from './components/Table'
-export { Sidebar, SidebarItem, SidebarFooterButton, type SidebarProps, type SidebarItemProps } from './components/Sidebar'
+export {
+  Sidebar,
+  SidebarItem,
+  SidebarSubmenu,
+  SidebarSubmenuItem,
+  SidebarFooterButton,
+  type SidebarProps,
+  type SidebarItemProps,
+  type SidebarSubmenuProps,
+  type SidebarSubmenuItemProps,
+} from './components/Sidebar'
 export {
   DataTable,
   useDataTable,

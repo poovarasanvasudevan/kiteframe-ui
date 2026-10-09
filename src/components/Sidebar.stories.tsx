@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react'
-import { Gauge, Users, CreditCard, Shield, Building2, LayoutGrid } from 'lucide-react'
-import { Sidebar, SidebarItem, SidebarFooterButton } from './Sidebar'
+import { Gauge, Users, CreditCard, Shield, Building2, LayoutGrid, Briefcase, ListChecks, PanelTop } from 'lucide-react'
+import { Sidebar, SidebarItem, SidebarSubmenu, SidebarSubmenuItem, SidebarFooterButton } from './Sidebar'
 
 const meta: Meta<typeof Sidebar> = {
   title: 'Layout/Sidebar',
@@ -67,4 +67,30 @@ export const WithBrandLabel: Story = {
       </div>
     ),
   ],
+}
+
+export const WithSubmenu: Story = {
+  name: 'With submenu',
+  render: () => (
+    <Sidebar
+      brand={<span className="kf-sidebar__mark">K</span>}
+      style={{ position: 'relative', height: 360, width: '100%' }}
+    >
+      <SidebarItem
+        href="#"
+        label="Projects"
+        icon={<Briefcase />}
+        defaultSubmenuOpen
+        submenu={
+          <SidebarSubmenu label="Projects">
+            <SidebarSubmenuItem href="#projects" label="Projects" icon={<Briefcase />} />
+            <SidebarSubmenuItem href="#tasks" label="Project Tasks" icon={<ListChecks />} />
+            <SidebarSubmenuItem href="#templates" label="Project Templates" icon={<PanelTop />} />
+          </SidebarSubmenu>
+        }
+      />
+      <SidebarItem href="#" label="Users" icon={<Users />} />
+      <SidebarItem href="#" label="Billing" icon={<CreditCard />} />
+    </Sidebar>
+  ),
 }
