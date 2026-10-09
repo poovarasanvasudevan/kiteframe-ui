@@ -2,6 +2,10 @@
 
 Reusable React UI kit for KiteFrame operations shells (~95% density).
 
+## AI / agent design skill
+
+Agents (Cursor, Claude, Codex, etc.) should load **`skills/kiteframe-design/SKILL.md`** before implementing UI. See also `AGENTS.md`. Symlinks exist at `.cursor/skills/kiteframe-design` and `.claude/skills/kiteframe-design`.
+
 ## Install in another project
 
 ```bash
