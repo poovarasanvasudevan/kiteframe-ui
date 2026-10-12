@@ -18,7 +18,7 @@ export type FilteredSelectOption = SelectOption & {
   keywords?: string
 }
 
-export type FilteredSelectProps = {
+type FilteredSelectBaseProps = {
   label?: ReactNode
   hint?: ReactNode
   error?: ReactNode
@@ -26,9 +26,6 @@ export type FilteredSelectProps = {
   placeholder?: string
   filterPlaceholder?: string
   emptyMessage?: string
-  value?: string
-  defaultValue?: string
-  onValueChange?: (value: string) => void
   disabled?: boolean
   className?: string
   id?: string
@@ -36,24 +33,52 @@ export type FilteredSelectProps = {
   'aria-label'?: string
 }
 
+export type FilteredSelectSingleProps = FilteredSelectBaseProps & {
+  multiple?: false
+  value?: string
+  defaultValue?: string
+  onValueChange?: (value: string) => void
+}
+
+export type FilteredSelectMultipleProps = FilteredSelectBaseProps & {
+  multiple: true
+  value?: string[]
+  defaultValue?: string[]
+  onValueChange?: (value: string[]) => void
+}
+
+export type FilteredSelectProps = FilteredSelectSingleProps | FilteredSelectMultipleProps
+
+function normalizeSingleDefault(defaultValue?: string | string[]) {
+  if (typeof defaultValue === 'string') return defaultValue
+  if (Array.isArray(defaultValue)) return defaultValue[0] ?? ''
+  return ''
+}
+
+function normalizeMultipleDefault(defaultValue?: string | string[]) {
+  if (Array.isArray(defaultValue)) return defaultValue
+  if (typeof defaultValue === 'string' && defaultValue) return [defaultValue]
+  return []
+}
+
 /** Select with an inline search field that filters options as you type. */
-export function FilteredSelect({
-  label,
-  hint,
-  error,
-  options = [],
-  placeholder = 'Choose…',
-  filterPlaceholder = 'Search…',
-  emptyMessage = 'No matches',
-  value,
-  defaultValue = '',
-  onValueChange,
-  disabled,
-  className,
-  id,
-  name,
-  'aria-label': ariaLabel,
-}: FilteredSelectProps) {
+export function FilteredSelect(props: FilteredSelectProps) {
+  const {
+    label,
+    hint,
+    error,
+    options = [],
+    placeholder = 'Choose…',
+    filterPlaceholder = 'Search…',
+    emptyMessage = 'No matches',
+    disabled,
+    className,
+    id,
+    name,
+    'aria-label': ariaLabel,
+  } = props
+  const multiple = props.multiple === true
+
   const reactId = useId()
   const listboxId = `${reactId}-listbox`
   const filterId = `${reactId}-filter`
@@ -63,31 +88,47 @@ export function FilteredSelect({
   const [open, setOpen] = useState(false)
   const [query, setQuery] = useState('')
   const [activeIndex, setActiveIndex] = useState(0)
-  const [selected, setSelected] = useControllableState({
-    value,
-    defaultValue,
-    onChange: onValueChange,
+
+  const [selected, setSelected] = useControllableState<string | string[]>({
+    value: props.value,
+    defaultValue: multiple
+      ? normalizeMultipleDefault(props.defaultValue)
+      : normalizeSingleDefault(props.defaultValue),
+    onChange: props.onValueChange as ((value: string | string[]) => void) | undefined,
   })
+
+  const selectedValues = useMemo(() => {
+    if (multiple) return Array.isArray(selected) ? selected : selected ? [String(selected)] : []
+    return []
+  }, [multiple, selected])
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase()
     if (!q) return options
     return options.filter((option) => {
-      const haystack = `${option.label} ${option.description ?? ''} ${option.keywords ?? ''} ${option.value}`.toLowerCase()
+      const haystack =
+        `${option.label} ${option.description ?? ''} ${option.keywords ?? ''} ${option.value}`.toLowerCase()
       return haystack.includes(q)
     })
   }, [options, query])
 
   const enabledOptions = useMemo(() => filtered.filter((option) => !option.disabled), [filtered])
-  const selectedOption = options.find((option) => option.value === selected)
+  const selectedOption = !multiple ? options.find((option) => option.value === selected) : undefined
+  const selectedOptions = multiple
+    ? options.filter((option) => selectedValues.includes(option.value))
+    : []
+  const hasSelection = multiple ? selectedValues.length > 0 : Boolean(selectedOption)
   const displayLabel = selectedOption?.label
+
+  const isOptionSelected = (value: string) =>
+    multiple ? selectedValues.includes(value) : selected === value
 
   useEffect(() => {
     if (!open) {
       setQuery('')
       return
     }
-    const selectedIdx = enabledOptions.findIndex((option) => option.value === selected)
+    const selectedIdx = enabledOptions.findIndex((option) => isOptionSelected(option.value))
     setActiveIndex(selectedIdx >= 0 ? selectedIdx : 0)
     const timer = window.setTimeout(() => filterRef.current?.focus(), 0)
     const onPointer = (event: MouseEvent) => {
@@ -103,13 +144,21 @@ export function FilteredSelect({
       document.removeEventListener('mousedown', onPointer)
       document.removeEventListener('keydown', onKey)
     }
-  }, [open, enabledOptions, selected])
+  }, [open, enabledOptions, selected, multiple, selectedValues])
 
   useEffect(() => {
     setActiveIndex(0)
   }, [query])
 
   const pick = (next: string) => {
+    if (multiple) {
+      const current = Array.isArray(selected) ? selected : []
+      const nextValues = current.includes(next)
+        ? current.filter((value) => value !== next)
+        : [...current, next]
+      setSelected(nextValues)
+      return
+    }
     setSelected(next)
     setOpen(false)
   }
@@ -149,18 +198,37 @@ export function FilteredSelect({
   return (
     <div
       ref={rootRef}
-      className={cx('kf-field', Boolean(error) && 'kf-field--error', 'kf-select', 'kf-filtered-select', className)}
+      className={cx(
+        'kf-field',
+        Boolean(error) && 'kf-field--error',
+        'kf-select',
+        'kf-filtered-select',
+        multiple && 'kf-select--multiple',
+        className,
+      )}
     >
       {label ? (
         <label className="kf-field__label" htmlFor={fieldId}>
           {label}
         </label>
       ) : null}
-      {name ? <input type="hidden" name={name} value={selected} /> : null}
+      {name ? (
+        multiple ? (
+          selectedValues.map((value) => (
+            <input key={value || '__empty'} type="hidden" name={name} value={value} />
+          ))
+        ) : (
+          <input type="hidden" name={name} value={typeof selected === 'string' ? selected : ''} />
+        )
+      ) : null}
       <button
         id={fieldId}
         type="button"
-        className={cx('kf-select__trigger', !displayLabel && 'kf-select__trigger--placeholder')}
+        className={cx(
+          'kf-select__trigger',
+          multiple && 'kf-select__trigger--multiple',
+          !hasSelection && 'kf-select__trigger--placeholder',
+        )}
         disabled={disabled}
         aria-haspopup="listbox"
         aria-expanded={open}
@@ -182,12 +250,33 @@ export function FilteredSelect({
         }}
       >
         <span className="kf-select__value">
-          {selectedOption?.icon ? (
-            <span className="kf-filtered-select__value-icon" aria-hidden>
-              {selectedOption.icon}
-            </span>
-          ) : null}
-          {displayLabel ?? placeholder}
+          {multiple ? (
+            selectedOptions.length === 0 ? (
+              placeholder
+            ) : (
+              <span className="kf-select__tags">
+                {selectedOptions.map((option) => (
+                  <span key={option.value} className="kf-select__tag">
+                    {option.icon ? (
+                      <span className="kf-filtered-select__value-icon" aria-hidden>
+                        {option.icon}
+                      </span>
+                    ) : null}
+                    {option.label}
+                  </span>
+                ))}
+              </span>
+            )
+          ) : (
+            <>
+              {selectedOption?.icon ? (
+                <span className="kf-filtered-select__value-icon" aria-hidden>
+                  {selectedOption.icon}
+                </span>
+              ) : null}
+              {displayLabel ?? placeholder}
+            </>
+          )}
         </span>
         <ChevronDown className="kf-select__chevron" size={14} aria-hidden />
       </button>
@@ -212,6 +301,7 @@ export function FilteredSelect({
             className="kf-filtered-select__list"
             role="listbox"
             tabIndex={-1}
+            aria-multiselectable={multiple || undefined}
             aria-activedescendant={
               activeIndex >= 0 ? `${reactId}-option-${enabledOptions[activeIndex]?.value}` : undefined
             }
@@ -221,7 +311,7 @@ export function FilteredSelect({
               <div className="kf-select__empty">{emptyMessage}</div>
             ) : (
               filtered.map((option) => {
-                const isSelected = option.value === selected
+                const selectedNow = isOptionSelected(option.value)
                 const enabledIdx = enabledOptions.findIndex((item) => item.value === option.value)
                 const isActive = !option.disabled && enabledIdx === activeIndex
                 return (
@@ -231,12 +321,12 @@ export function FilteredSelect({
                     type="button"
                     role="option"
                     disabled={option.disabled}
-                    aria-selected={isSelected}
+                    aria-selected={selectedNow}
                     data-active={isActive || undefined}
                     className={cx(
                       'kf-select__option',
                       'kf-filtered-select__option',
-                      isSelected && 'is-selected',
+                      selectedNow && 'is-selected',
                       isActive && 'is-active',
                     )}
                     onMouseEnter={() => {
@@ -257,7 +347,7 @@ export function FilteredSelect({
                         <span className="kf-filtered-select__option-desc">{option.description}</span>
                       ) : null}
                     </span>
-                    {isSelected ? <Check className="kf-select__check" size={14} aria-hidden /> : null}
+                    {selectedNow ? <Check className="kf-select__check" size={14} aria-hidden /> : null}
                   </button>
                 )
               })

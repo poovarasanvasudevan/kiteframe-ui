@@ -20,15 +20,12 @@ export type SelectOption = {
   description?: string
 }
 
-export type SelectProps = {
+type SelectBaseProps = {
   label?: ReactNode
   hint?: ReactNode
   error?: ReactNode
   options?: SelectOption[]
   placeholder?: string
-  value?: string
-  defaultValue?: string
-  onValueChange?: (value: string) => void
   disabled?: boolean
   className?: string
   id?: string
@@ -36,40 +33,83 @@ export type SelectProps = {
   'aria-label'?: string
 }
 
-export function Select({
-  label,
-  hint,
-  error,
-  options = [],
-  placeholder = 'Choose…',
-  value,
-  defaultValue = '',
-  onValueChange,
-  disabled,
-  className,
-  id,
-  name,
-  'aria-label': ariaLabel,
-}: SelectProps) {
+export type SelectSingleProps = SelectBaseProps & {
+  multiple?: false
+  value?: string
+  defaultValue?: string
+  onValueChange?: (value: string) => void
+}
+
+export type SelectMultipleProps = SelectBaseProps & {
+  multiple: true
+  value?: string[]
+  defaultValue?: string[]
+  onValueChange?: (value: string[]) => void
+}
+
+export type SelectProps = SelectSingleProps | SelectMultipleProps
+
+function normalizeSingleDefault(defaultValue?: string | string[]) {
+  if (typeof defaultValue === 'string') return defaultValue
+  if (Array.isArray(defaultValue)) return defaultValue[0] ?? ''
+  return ''
+}
+
+function normalizeMultipleDefault(defaultValue?: string | string[]) {
+  if (Array.isArray(defaultValue)) return defaultValue
+  if (typeof defaultValue === 'string' && defaultValue) return [defaultValue]
+  return []
+}
+
+export function Select(props: SelectProps) {
+  const {
+    label,
+    hint,
+    error,
+    options = [],
+    placeholder = 'Choose…',
+    disabled,
+    className,
+    id,
+    name,
+    'aria-label': ariaLabel,
+  } = props
+  const multiple = props.multiple === true
+
   const reactId = useId()
   const listboxId = `${reactId}-listbox`
   const fieldId = id ?? name ?? `${reactId}-trigger`
   const rootRef = useRef<HTMLDivElement>(null)
   const [open, setOpen] = useState(false)
   const [activeIndex, setActiveIndex] = useState(-1)
-  const [selected, setSelected] = useControllableState({
-    value,
-    defaultValue,
-    onChange: onValueChange,
+
+  const [selected, setSelected] = useControllableState<string | string[]>({
+    value: props.value,
+    defaultValue: multiple
+      ? normalizeMultipleDefault(props.defaultValue)
+      : normalizeSingleDefault(props.defaultValue),
+    onChange: props.onValueChange as ((value: string | string[]) => void) | undefined,
   })
 
+  const selectedValues = useMemo(() => {
+    if (multiple) return Array.isArray(selected) ? selected : selected ? [String(selected)] : []
+    return []
+  }, [multiple, selected])
+
   const enabledOptions = useMemo(() => options.filter((option) => !option.disabled), [options])
-  const selectedOption = options.find((option) => option.value === selected)
+  const selectedOption = !multiple ? options.find((option) => option.value === selected) : undefined
+  const selectedOptions = multiple
+    ? options.filter((option) => selectedValues.includes(option.value))
+    : []
+  const hasSelection = multiple ? selectedValues.length > 0 : Boolean(selectedOption)
   const displayLabel = selectedOption?.label
+
+  const isOptionSelected = (value: string) =>
+    multiple ? selectedValues.includes(value) : selected === value
 
   useEffect(() => {
     if (!open) return
-    const selectedIdx = enabledOptions.findIndex((option) => option.value === selected)
+    const selectedIdx = enabledOptions.findIndex((option) => isOptionSelected(option.value))
     setActiveIndex(selectedIdx >= 0 ? selectedIdx : 0)
     const onPointer = (event: MouseEvent) => {
       if (!rootRef.current?.contains(event.target as Node)) setOpen(false)
@@ -83,9 +123,17 @@ export function Select({
       document.removeEventListener('mousedown', onPointer)
       document.removeEventListener('keydown', onKey)
     }
-  }, [open, enabledOptions, selected])
+  }, [open, enabledOptions, selected, multiple, selectedValues])
 
   const pick = (next: string) => {
+    if (multiple) {
+      const current = Array.isArray(selected) ? selected : []
+      const nextValues = current.includes(next)
+        ? current.filter((value) => value !== next)
+        : [...current, next]
+      setSelected(nextValues)
+      return
+    }
     setSelected(next)
     setOpen(false)
   }
@@ -125,17 +173,38 @@ export function Select({
   }
 
   return (
-    <div ref={rootRef} className={cx('kf-field', Boolean(error) && 'kf-field--error', 'kf-select', className)}>
+    <div
+      ref={rootRef}
+      className={cx(
+        'kf-field',
+        Boolean(error) && 'kf-field--error',
+        'kf-select',
+        multiple && 'kf-select--multiple',
+        className,
+      )}
+    >
       {label ? (
         <label className="kf-field__label" htmlFor={fieldId}>
           {label}
         </label>
       ) : null}
-      {name ? <input type="hidden" name={name} value={selected} /> : null}
+      {name ? (
+        multiple ? (
+          selectedValues.map((value) => (
+            <input key={value || '__empty'} type="hidden" name={name} value={value} />
+          ))
+        ) : (
+          <input type="hidden" name={name} value={typeof selected === 'string' ? selected : ''} />
+        )
+      ) : null}
       <button
         id={fieldId}
         type="button"
-        className={cx('kf-select__trigger', !displayLabel && 'kf-select__trigger--placeholder')}
+        className={cx(
+          'kf-select__trigger',
+          multiple && 'kf-select__trigger--multiple',
+          !hasSelection && 'kf-select__trigger--placeholder',
+        )}
         disabled={disabled}
         aria-haspopup="listbox"
         aria-expanded={open}
@@ -145,7 +214,23 @@ export function Select({
         onClick={() => !disabled && setOpen((prev) => !prev)}
         onKeyDown={onTriggerKeyDown}
       >
-        <span className="kf-select__value">{displayLabel ?? placeholder}</span>
+        <span className="kf-select__value">
+          {multiple ? (
+            selectedOptions.length === 0 ? (
+              placeholder
+            ) : (
+              <span className="kf-select__tags">
+                {selectedOptions.map((option) => (
+                  <span key={option.value} className="kf-select__tag">
+                    {option.label}
+                  </span>
+                ))}
+              </span>
+            )
+          ) : (
+            (displayLabel ?? placeholder)
+          )}
+        </span>
         <ChevronDown className="kf-select__chevron" size={14} aria-hidden />
       </button>
       {open ? (
@@ -154,6 +239,7 @@ export function Select({
           className="kf-select__menu"
           role="listbox"
           tabIndex={-1}
+          aria-multiselectable={multiple || undefined}
           aria-activedescendant={
             activeIndex >= 0 ? `${reactId}-option-${enabledOptions[activeIndex]?.value}` : undefined
           }
@@ -164,7 +250,7 @@ export function Select({
             <div className="kf-select__empty">No options</div>
           ) : (
             options.map((option) => {
-              const isSelected = option.value === selected
+              const selectedNow = isOptionSelected(option.value)
               const enabledIdx = enabledOptions.findIndex((item) => item.value === option.value)
               const isActive = !option.disabled && enabledIdx === activeIndex
               return (
@@ -174,9 +260,9 @@ export function Select({
                   type="button"
                   role="option"
                   disabled={option.disabled}
-                  aria-selected={isSelected}
+                  aria-selected={selectedNow}
                   data-active={isActive || undefined}
-                  className={cx('kf-select__option', isSelected && 'is-selected', isActive && 'is-active')}
+                  className={cx('kf-select__option', selectedNow && 'is-selected', isActive && 'is-active')}
                   onMouseEnter={() => {
                     if (!option.disabled && enabledIdx >= 0) setActiveIndex(enabledIdx)
                   }}
@@ -185,7 +271,7 @@ export function Select({
                   }}
                 >
                   <span className="kf-select__option-label">{option.label}</span>
-                  {isSelected ? <Check className="kf-select__check" size={14} aria-hidden /> : null}
+                  {selectedNow ? <Check className="kf-select__check" size={14} aria-hidden /> : null}
                 </button>
               )
             })

@@ -17,7 +17,7 @@ const meta: Meta<typeof Select> = {
     docs: {
       description: {
         component:
-          'Single-select dropdown with keyboard navigation (arrows, Home/End, Enter, Escape). Supports label, hint, error, and disabled options. For searchable lists use `FilteredSelect`.',
+          'Dropdown select with keyboard navigation (arrows, Home/End, Enter, Escape). Set `multiple` for multi-select (menu stays open; tags show in the trigger). For searchable lists use `FilteredSelect`.',
       },
     },
   },
@@ -80,5 +80,22 @@ export const Disabled: Story = {
     disabled: true,
     defaultValue: 'draft',
     options: statusOptions,
+  },
+}
+
+export const Multiple: Story = {
+  render: () => {
+    const [value, setValue] = useState<string[]>(['draft', 'review'])
+    return (
+      <Select
+        multiple
+        label="Statuses"
+        placeholder="Choose statuses…"
+        value={value}
+        onValueChange={setValue}
+        options={statusOptions}
+        hint="Toggle options without closing the menu."
+      />
+    )
   },
 }

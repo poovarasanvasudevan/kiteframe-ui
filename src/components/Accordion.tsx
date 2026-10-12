@@ -1,4 +1,11 @@
-import { createContext, useContext, useId, type HTMLAttributes, type ReactNode } from 'react'
+import {
+  createContext,
+  useContext,
+  useId,
+  type ButtonHTMLAttributes,
+  type HTMLAttributes,
+  type ReactNode,
+} from 'react'
 import { ChevronDown } from 'lucide-react'
 import { useControllableState } from '../hooks/useControllableState'
 import { cx } from '../utils/cx'
@@ -19,6 +26,7 @@ function useAccordion() {
 }
 
 export type AccordionProps = HTMLAttributes<HTMLDivElement> & {
+  /** `single` keeps one panel open; `multiple` allows several. */
   type?: 'single' | 'multiple'
   value?: string[]
   defaultValue?: string[]
@@ -26,6 +34,7 @@ export type AccordionProps = HTMLAttributes<HTMLDivElement> & {
   children: ReactNode
 }
 
+/** Multi-section expand/collapse group. Compose with Item / Trigger / Panel. */
 export function Accordion({
   type = 'single',
   value,
@@ -55,54 +64,69 @@ export function Accordion({
   )
 }
 
-const ItemContext = createContext<string>('')
+const ItemContext = createContext<{ value: string; disabled: boolean }>({ value: '', disabled: false })
 
 export type AccordionItemProps = HTMLAttributes<HTMLDivElement> & {
   value: string
+  disabled?: boolean
   children: ReactNode
 }
 
-export function AccordionItem({ value, className, children, ...props }: AccordionItemProps) {
+export function AccordionItem({ value, disabled = false, className, children, ...props }: AccordionItemProps) {
   return (
-    <ItemContext.Provider value={value}>
-      <div className={cx('kf-accordion__item', className)} {...props}>
+    <ItemContext.Provider value={{ value, disabled }}>
+      <div
+        className={cx('kf-accordion__item', disabled && 'kf-accordion__item--disabled', className)}
+        data-disabled={disabled || undefined}
+        {...props}
+      >
         {children}
       </div>
     </ItemContext.Provider>
   )
 }
 
-export function AccordionTrigger({ className, children, ...props }: HTMLAttributes<HTMLButtonElement>) {
+export type AccordionTriggerProps = ButtonHTMLAttributes<HTMLButtonElement>
+
+export function AccordionTrigger({ className, children, disabled, ...props }: AccordionTriggerProps) {
   const accordion = useAccordion()
-  const value = useContext(ItemContext)
-  const open = accordion.openItems.includes(value)
+  const item = useContext(ItemContext)
+  const open = accordion.openItems.includes(item.value)
+  const isDisabled = disabled || item.disabled
+
   return (
     <button
       type="button"
       className={cx('kf-accordion__trigger', className)}
       aria-expanded={open}
-      aria-controls={`${accordion.baseId}-panel-${value}`}
-      id={`${accordion.baseId}-trigger-${value}`}
-      onClick={() => accordion.toggle(value)}
+      aria-controls={`${accordion.baseId}-panel-${item.value}`}
+      id={`${accordion.baseId}-trigger-${item.value}`}
+      disabled={isDisabled}
+      onClick={() => accordion.toggle(item.value)}
       {...props}
     >
-      <span>{children}</span>
+      <span className="kf-accordion__label">{children}</span>
       <ChevronDown className="kf-accordion__chevron" size={14} aria-hidden />
     </button>
   )
 }
 
-export function AccordionPanel({ className, ...props }: HTMLAttributes<HTMLDivElement>) {
+export type AccordionPanelProps = HTMLAttributes<HTMLDivElement>
+
+export function AccordionPanel({ className, children, ...props }: AccordionPanelProps) {
   const accordion = useAccordion()
-  const value = useContext(ItemContext)
-  if (!accordion.openItems.includes(value)) return null
+  const item = useContext(ItemContext)
+  if (!accordion.openItems.includes(item.value)) return null
+
   return (
     <div
-      id={`${accordion.baseId}-panel-${value}`}
+      id={`${accordion.baseId}-panel-${item.value}`}
       role="region"
-      aria-labelledby={`${accordion.baseId}-trigger-${value}`}
+      aria-labelledby={`${accordion.baseId}-trigger-${item.value}`}
       className={cx('kf-accordion__panel', className)}
       {...props}
-    />
+    >
+      {children}
+    </div>
   )
 }

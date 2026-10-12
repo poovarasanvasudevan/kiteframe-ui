@@ -14,13 +14,14 @@ import { cx } from '../utils/cx'
 
 export type MenuSide = 'top' | 'bottom' | 'left' | 'right'
 
-type MenuContextValue = {
+export type MenuContextValue = {
   close: () => void
 }
 
-const MenuContext = createContext<MenuContextValue | null>(null)
+/** Shared by `Menu` and `ContextMenu` so `MenuItem` closes the open panel. */
+export const MenuContext = createContext<MenuContextValue | null>(null)
 
-function useMenuContext() {
+export function useMenuContext() {
   return useContext(MenuContext)
 }
 

@@ -52,7 +52,7 @@ const meta: Meta<typeof FilteredSelect> = {
     docs: {
       description: {
         component:
-          'Searchable select. Typing in the filter field narrows options by label, description, keywords, or value. Supports icons, descriptions, and the same field chrome as `Select` (label, hint, error).',
+          'Searchable select. Typing filters by label, description, keywords, or value. Set `multiple` for multi-select (menu stays open). Same field chrome as `Select`.',
       },
     },
   },
@@ -110,5 +110,23 @@ export const EmptyFilter: Story = {
     ],
     emptyMessage: 'No categories match',
     filterPlaceholder: 'Try typing “zzz”…',
+  },
+}
+
+export const Multiple: Story = {
+  render: () => {
+    const [value, setValue] = useState<string[]>(['knowledge', 'articles'])
+    return (
+      <FilteredSelect
+        multiple
+        label="Workspaces"
+        placeholder="Choose workspaces…"
+        filterPlaceholder="Search workspaces…"
+        value={value}
+        onValueChange={setValue}
+        options={workspaceOptions}
+        hint="Select several workspaces; menu stays open while choosing."
+      />
+    )
   },
 }
