@@ -1,0 +1,45 @@
+import { Meta } from '@storybook/blocks'
+
+<Meta title="Hooks/Overview" />
+
+# Hooks
+
+Utility hooks exported from `@kiteapps/ui` / `@kiteframe/ui`. Open each **Hooks/** story for a live example.
+
+| Hook | Purpose |
+|------|---------|
+| [`useControllableState`](?path=/docs/hooks-usecontrollablestate--docs) | Controlled / uncontrolled state (open, value, etc.) |
+| [`useSetState`](?path=/docs/hooks-usesetstate--docs) | Object state with partial patches |
+| [`useMap`](?path=/docs/hooks-usemap--docs) | Reactive `Map` with set / remove / clear / reset |
+| [`useSet`](?path=/docs/hooks-useset--docs) | Reactive `Set` with add / toggle / clear / reset |
+| [`useRequest`](?path=/docs/hooks-userequest--docs) | Async request with loading / error / cancel |
+| [`useAsyncEffect`](?path=/docs/hooks-useasynceffect--docs) | `useEffect` with async work + abort signal |
+| [`useDebounce`](?path=/docs/hooks-usedebounce--docs) | Debounce a changing value |
+| [`useInterval`](?path=/docs/hooks-useinterval--docs) | Stable interval (`null` delay pauses) |
+| [`useTimeout`](?path=/docs/hooks-usetimeout--docs) | One-shot timeout (`null` delay cancels) |
+| [`useShortcut`](?path=/docs/hooks-useshortcut--docs) | Keyboard shortcut handler |
+| [`useCommandKShortcut`](?path=/docs/hooks-usecommandkshortcut--docs) | ⌘K / Ctrl+K toggle helper |
+| [`useNotifications`](?path=/docs/hooks-usenotifications--docs) | Toast queue (standalone) |
+| [`useNotification`](?path=/docs/hooks-usenotification--docs) | Toast API from `NotificationProvider` |
+| [`useDataTable`](?path=/story/data-datatable--default) | TanStack table instance for `DataTable` |
+| [`useMenuContext`](?path=/docs/overlay-menu--docs) | Close menu from custom items (`Menu` / `ContextMenu`) |
+
+```tsx
+import {
+  useControllableState,
+  useSetState,
+  useMap,
+  useSet,
+  useRequest,
+  useAsyncEffect,
+  useDebounce,
+  useInterval,
+  useTimeout,
+  useShortcut,
+  useCommandKShortcut,
+  useNotifications,
+  useNotification,
+  useDataTable,
+  useMenuContext,
+} from '@kiteapps/ui'
+```
