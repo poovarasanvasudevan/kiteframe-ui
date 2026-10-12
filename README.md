@@ -1,6 +1,6 @@
-# @kiteframe/ui
+# @kiteapps/ui
 
-Reusable React UI kit for KiteFrame operations shells (~95% density).
+Reusable React UI kit for KiteApps operations shells (~95% density).
 
 ## AI / agent design skill
 
@@ -9,7 +9,7 @@ Agents (Cursor, Claude, Codex, etc.) should load **`skills/kiteframe-design/SKIL
 ## Install in another project
 
 ```bash
-npm install @kiteframe/ui
+npm install @kiteapps/ui
 # peers (install once in the app):
 npm install react react-dom lucide-react @tanstack/react-table @tanstack/react-virtual
 ```
@@ -19,7 +19,7 @@ Peer dependencies: `react`, `react-dom`, `lucide-react`, `@tanstack/react-table`
 ## Setup
 
 ```tsx
-import '@kiteframe/ui/styles.css'
+import '@kiteapps/ui/styles.css'
 import {
   AppLayout,
   Sidebar,
@@ -32,17 +32,17 @@ import {
   SettingsRow,
   SettingsStat,
   StatusIndicator,
-} from '@kiteframe/ui'
+} from '@kiteapps/ui'
 ```
 
 ## Storybook
 
 ```bash
-bun run --filter @kiteframe/ui storybook
+bun run --filter @kiteapps/ui storybook
 # http://localhost:6006
 ```
 
-Static docs build: `bun run --filter @kiteframe/ui build-storybook`
+Static docs build: `bun run --filter @kiteapps/ui build-storybook`
 
 ## Components
 
@@ -50,6 +50,7 @@ Static docs build: `bun run --filter @kiteframe/ui build-storybook`
 | Component | Import |
 |-----------|--------|
 | App shell | `AppLayout` |
+| Flex / Grid | `Flex`, `Grid`, `GridItem` (0–12 gap / columns / span) |
 | Icon rail | `Sidebar`, `SidebarItem`, `SidebarFooterButton` |
 | Header | `TopBar` |
 | Page header | `PageHeader` |

@@ -83,6 +83,7 @@ Peers: `react`, `react-dom`, `lucide-react`, `@tanstack/react-table`, `@tanstack
 | Need | Use |
 |------|-----|
 | App shell | `AppLayout`, `Sidebar`, `SidebarItem`, `TopBar` |
+| Layout utils | `Flex`, `Grid`, `GridItem` (gap/cols/span 0–12) |
 | Page chrome | `PageHeader`, `SectionHeader`, `Breadcrumb` |
 | Actions | `Button` (`primary` \| `secondary` \| `ghost` \| `danger` \| `danger-outline`), `MiniButton` (+ `MiniButtonGroup`) |
 | Forms | `TextField`, `TextArea`, `Select`, `FilteredSelect`, `DatePicker`, `DateRangePicker`, `Checkbox`, `Switch`, `ChipInput`, `FileUpload` |

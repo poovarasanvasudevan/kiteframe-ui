@@ -52,6 +52,21 @@ Field chrome: `label` / `hint` / `error` on `kf-field`. Error replaces hint.
 - `SidebarItem` / `SidebarFooterButton` for rail icons.
 - Always use `AppLayout` so the rail column is reserved.
 
+## Flex & Grid (0–12)
+
+Gap scale: `N × 4px × --kf-density` (0–12). Grid columns/spans: 1–12.
+
+```tsx
+<Flex gap={3} align="center" justify="between" wrap>
+  ...
+</Flex>
+
+<Grid cols={12} gap={3}>
+  <GridItem span={6}>...</GridItem>
+  <GridItem span={4} col={9}>...</GridItem>
+</Grid>
+```
+
 ## Navigation & search
 
 ```tsx
