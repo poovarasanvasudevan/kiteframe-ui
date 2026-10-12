@@ -8,9 +8,15 @@ Exports live in `src/index.ts`. Prefer reading the component file or Storybook w
 <Button variant="primary" | "secondary" | "ghost" | "danger" | "danger-outline"
         size="sm" | "md" | "lg"
         iconOnly leftIcon={...} rightIcon={...} />
+
+<MiniButton icon={<Store />} dropdown?>Label</MiniButton>
+<MiniButtonGroup>
+  <MiniButton icon={...}>Apps</MiniButton>
+  <MiniButton icon={...} dropdown>Available</MiniButton>
+</MiniButtonGroup>
 ```
 
-Default variant is **secondary**. Primary = navy fill.
+Default `Button` variant is **secondary**. Primary = navy fill. `MiniButton` is the compact toolbar chip.
 
 ## Forms
 
@@ -18,7 +24,11 @@ Default variant is **secondary**. Primary = navy fill.
 <TextField label="Name" hint="Optional" error="Required" />
 <TextArea label="Notes" />
 <Select options={[{ value, label }]} />
+<Select multiple value={string[]} onValueChange={(v: string[]) => ...} />
 <FilteredSelect options={...} />  // searchable
+<FilteredSelect multiple value={string[]} onValueChange={(v: string[]) => ...} />
+<DatePicker mode="date" | "week" | "month" | "time" | "datetime" />
+<DateRangePicker value={{ start, end }} onValueChange={...} numberOfMonths={1|2} />
 <Checkbox /> <Switch />
 <ChipInput />  // tag entry
 <FileUpload />
@@ -114,8 +124,19 @@ Use `Alert` for persistent in-page banners; notifications for ephemeral toasts.
 <Popover trigger={...} side open? onOpenChange?>
   <PopoverItem />
 </Popover>
-<Menu> <MenuItem /> <IconMenuItem /> <MenuSeparator /> <MenuLabel /> </Menu>
-<Accordion> <AccordionItem> <AccordionTrigger /> <AccordionPanel /> </AccordionItem> </Accordion>
+<Menu trigger={...}> <MenuItem /> <IconMenuItem /> <MenuSeparator /> <MenuLabel /> </Menu>
+<ContextMenu trigger={...}> {/* same MenuItem / IconMenuItem composition */} </ContextMenu>
+<Accordion type="single" | "multiple" value? defaultValue? onValueChange?>
+  <AccordionItem value disabled?>
+    <AccordionTrigger />
+    <AccordionPanel />
+  </AccordionItem>
+</Accordion>
+
+{/* Single panel */}
+<Collapse title="Advanced" open? defaultOpen? onOpenChange? disabled?>
+  ...
+</Collapse>
 ```
 
 Pattern: controlled `open` / `onOpenChange`; portal + scrim for modal layers.
@@ -136,7 +157,10 @@ Pattern: controlled `open` / `onOpenChange`; portal + scrim for modal layers.
 <Divider />
 <Avatar /> <AvatarGroup />
 <Icon name=... /> / <Icons />
+<Logo icon={<Zap />} backgroundColor="#22c55e" shape="clover" size="md" label="App" />
 ```
+
+`Logo` shaped mark: `shape` (default `clover`; see `LOGO_SHAPES`), `backgroundColor`, `icon`, optional `iconColor` / `size` / `label`.
 
 ## Utilities
 

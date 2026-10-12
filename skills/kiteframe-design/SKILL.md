@@ -84,13 +84,13 @@ Peers: `react`, `react-dom`, `lucide-react`, `@tanstack/react-table`, `@tanstack
 |------|-----|
 | App shell | `AppLayout`, `Sidebar`, `SidebarItem`, `TopBar` |
 | Page chrome | `PageHeader`, `SectionHeader`, `Breadcrumb` |
-| Actions | `Button` (`primary` \| `secondary` \| `ghost` \| `danger` \| `danger-outline`) |
-| Forms | `TextField`, `TextArea`, `Select`, `FilteredSelect`, `Checkbox`, `Switch`, `ChipInput`, `FileUpload` |
+| Actions | `Button` (`primary` \| `secondary` \| `ghost` \| `danger` \| `danger-outline`), `MiniButton` (+ `MiniButtonGroup`) |
+| Forms | `TextField`, `TextArea`, `Select`, `FilteredSelect`, `DatePicker`, `DateRangePicker`, `Checkbox`, `Switch`, `ChipInput`, `FileUpload` |
 | Search | `SearchBox`, `SearchTrigger` + `CommandK` / `useCommandKShortcut` |
 | Feedback | `Alert`, `Notification` / `NotificationProvider` / `useNotification`, `Badge`, `Chip`, `StatusIndicator`, `Spinner`, `Tooltip`, `EmptyState` |
 | Data | `SettingsRow`, `ListItem`, `Stat`, `ProgressBar`, `Table`, `DataTable` |
-| Overlay | `Dialog`, `Drawer`, `Popover`, `Menu`, `CommandK`, `Accordion` |
-| Content | `Card` (+ `CardHeader`/`Body`/`Footer`), `Typography`, `Link`, `InfoPanel`, `HelpList` |
+| Overlay | `Dialog`, `Drawer`, `Popover`, `Menu`, `ContextMenu`, `CommandK`, `Accordion`, `Collapse` |
+| Content | `Card` (+ `CardHeader`/`Body`/`Footer`), `Typography`, `Link`, `InfoPanel`, `HelpList`, `Logo` |
 
 Full API notes: [components.md](components.md)  
 Tokens: [tokens.md](tokens.md)  

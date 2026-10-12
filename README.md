@@ -66,9 +66,10 @@ Static docs build: `bun run --filter @kiteframe/ui build-storybook`
 ### Forms
 | Component | Import |
 |-----------|--------|
-| Button | `Button` (`primary` \| `secondary` \| `ghost` \| `danger` \| `danger-outline`) |
+| Button | `Button` (`primary` \| `secondary` \| `ghost` \| `danger` \| `danger-outline`), `MiniButton`, `MiniButtonGroup` |
 | Text | `TextField`, `TextArea` |
-| Select | `Select`, `FilteredSelect` |
+| Select | `Select`, `FilteredSelect` (`multiple` for multi-select) |
+| Date | `DatePicker`, `DateRangePicker` |
 | Menu | `Menu`, `MenuItem`, `IconMenuItem`, `MenuSeparator`, `MenuLabel` |
 | Search | `SearchBox`, `SearchTrigger` |
 | Checkbox / Switch | `Checkbox`, `Switch` |
@@ -102,8 +103,8 @@ Static docs build: `bun run --filter @kiteframe/ui build-storybook`
 | Product grid | `ProductGrid`, `ProductTile` |
 | Help / aside | `InfoPanel`, `HelpList`, `HelpListItem` |
 | Divider | `Divider` |
-| Avatar / Icon | `Avatar`, `AvatarGroup`, `Icon`, `Icons` |
-| Overlay | `Menu`, `MenuItem`, `IconMenuItem`, `MenuSeparator`, `MenuLabel`, `Popover`, `Dialog`, `Drawer`, `Accordion` |
+| Avatar / Icon | `Avatar`, `AvatarGroup`, `Icon`, `Icons`, `Logo` |
+| Overlay | `Menu`, `ContextMenu`, `MenuItem`, `IconMenuItem`, `MenuSeparator`, `MenuLabel`, `Popover`, `Dialog`, `Drawer`, `Accordion`, `Collapse` |
 
 ## Example: Security Settings row
 
