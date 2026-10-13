@@ -155,6 +155,16 @@ export {
 } from './components/SettingsRow'
 export { ListItem, type ListItemProps } from './components/ListItem'
 export { Stat, StatBar, type StatProps, type StatBarProps } from './components/Stat'
+export {
+  StatsCard,
+  StatsCardGroup,
+  type StatsCardProps,
+  type StatsCardGroupProps,
+  type StatsCardBadge,
+  type StatsCardProgress,
+  type StatsCardTone,
+  type StatsCardVariant,
+} from './components/StatsCard'
 export { ProgressBar, type ProgressBarProps, type ProgressBarTone } from './components/ProgressBar'
 export { Checkbox, type CheckboxProps } from './components/Checkbox'
 export { Switch, type SwitchProps } from './components/Switch'

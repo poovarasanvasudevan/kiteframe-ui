@@ -2,21 +2,19 @@ import { Meta } from '@storybook/blocks'
 
 <Meta title="Introduction" />
 
-# @kiteframe/ui
+# @kiteapps/ui
 
 Reusable React UI kit for KiteFrame operations shells.
 
 ## Install in another app
 
 ```bash
-bun add @kiteframe/ui lucide-react @tanstack/react-table
-# or link a local checkout:
-bun add ../path/to/kb-management/packages/ui
+bun add @kiteapps/ui lucide-react @tanstack/react-table
 ```
 
 ```tsx
-import '@kiteframe/ui/styles.css'
-import { AppLayout, Sidebar, TopBar, Button, PageHeader } from '@kiteframe/ui'
+import '@kiteapps/ui/styles.css'
+import { AppLayout, Sidebar, TopBar, Button, PageHeader } from '@kiteapps/ui'
 ```
 
 ## Layout (no overlap)
@@ -45,7 +43,7 @@ Each component has its own entry with a **Docs** tab (autodocs) and live example
 | **Layout** | `AppLayout`, `Flex`, `Grid`, `GridItem`, `Sidebar`, `TopBar`, `Card`, `PageHeader`, `SectionHeader`, `InfoPanel` |
 | **Forms** | `Button`, `MiniButton`, `TextField`, `Select`, `FilteredSelect`, `DatePicker`, `DateRangePicker`, `ChipInput`, `Checkbox`, `Switch`, `FileUpload`, … |
 | **Feedback** | `Alert`, `Notification` / `useNotification`, `Badge`, `StatusIndicator`, `Spinner`, `Tooltip`, `EmptyState` |
-| **Data** | `SettingsRow`, `ListItem`, `Stat`, `ProgressBar`, … |
+| **Data** | `SettingsRow`, `ListItem`, `Stat`, `StatsCard`, `ProgressBar`, … |
 | **Content** | `Link`, `HelpList`, `ProductGrid`, `UrlCard`, `IconBadge`, `Logo`, `Divider` |
 | **Overlay** | `Menu`, `ContextMenu`, `MenuItem`, `IconMenuItem`, `Popover`, `Dialog`, `Drawer`, `CommandK`, `Accordion`, `Collapse` |
 | **Hooks** | See **Hooks/Overview** — `useControllableState`, `useSetState`, `useMap`, `useSet`, `useRequest`, `useAsyncEffect`, `useDebounce`, `useInterval`, `useTimeout`, `useShortcut`, `useCommandKShortcut`, `useNotifications`, `useNotification`, `useDataTable`, `useMenuContext` |

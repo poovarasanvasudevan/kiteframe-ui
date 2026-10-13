@@ -126,6 +126,10 @@ Use `Alert` for persistent in-page banners; notifications for ephemeral toasts.
 <SettingsRow icon title description meta={<SettingsStat value label />} onClick />
 <ListItem /> <IconBadge />
 <Stat /> <StatBar /> <ProgressBar tone="..." />
+<StatsCard title value description icon iconTone="accent" />
+<StatsCardGroup>{/* metric StatsCards with dividers */}</StatsCardGroup>
+<StatsCard variant="kpi" title value progress={{ value, label, tone }} />
+<StatsCard variant="kpi" title value badges={[{ label, tone }]} />
 <Table><THead/><TBody><TR><TH/><TD/></TR></TBody></Table>
 <DataTable ... />  // TanStack table + virtual peers
 <UrlCard />

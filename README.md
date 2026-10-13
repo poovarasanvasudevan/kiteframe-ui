@@ -92,7 +92,7 @@ Static docs build: `bun run --filter @kiteapps/ui build-storybook`
 |-----------|--------|
 | Settings row | `SettingsRow`, `SettingsStat` |
 | List item | `ListItem`, `IconBadge` |
-| Metrics | `Stat`, `StatBar`, `ProgressBar` |
+| Metrics | `Stat`, `StatBar`, `StatsCard`, `StatsCardGroup`, `ProgressBar` |
 | Table | `Table`, `DataTable` |
 | URL card | `UrlCard` |
 

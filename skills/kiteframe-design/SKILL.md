@@ -89,7 +89,7 @@ Peers: `react`, `react-dom`, `lucide-react`, `@tanstack/react-table`, `@tanstack
 | Forms | `TextField`, `TextArea`, `Select`, `FilteredSelect`, `DatePicker`, `DateRangePicker`, `Checkbox`, `Switch`, `ChipInput`, `FileUpload` |
 | Search | `SearchBox`, `SearchTrigger` + `CommandK` / `useCommandKShortcut` |
 | Feedback | `Alert`, `Notification` / `NotificationProvider` / `useNotification`, `Badge`, `Chip`, `StatusIndicator`, `Spinner`, `Tooltip`, `EmptyState` |
-| Data | `SettingsRow`, `ListItem`, `Stat`, `ProgressBar`, `Table`, `DataTable` |
+| Data | `SettingsRow`, `ListItem`, `Stat`, `StatsCard`, `ProgressBar`, `Table`, `DataTable` |
 | Overlay | `Dialog`, `Drawer`, `Popover`, `Menu`, `ContextMenu`, `CommandK`, `Accordion`, `Collapse` |
 | Content | `Card` (+ `CardHeader`/`Body`/`Footer`), `Typography`, `Link`, `InfoPanel`, `HelpList`, `Logo` |
 
